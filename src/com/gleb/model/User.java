@@ -2,6 +2,7 @@ package com.gleb.model;
 
 import com.gleb.db.DBManager;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -21,7 +22,7 @@ public class User {
 
             pst.setString(1, username);
             pst.setString(2, md5(password));
-            pst.setDouble(3, 8.0);
+            pst.setBigDecimal(3, new BigDecimal("8.0"));
             pst.executeUpdate();
             pst.close();
         } catch (SQLException e) {
@@ -124,20 +125,20 @@ public class User {
                 return 1;
             }
 
-            float score = rs.getFloat("score");
+            BigDecimal score = rs.getBigDecimal("score");
 
-            if (score < 1.1) {
+            if (score.compareTo(new BigDecimal("1.1")) < 0) {
                 return 2;
             }
 
-            score -= 1.1;
+            score = score.subtract(new BigDecimal("1.1"));
 
             query = "update users " +
                     "set score=? " +
                     "where username='?' and token='?'";
 
             pst = cn.prepareStatement(query);
-            pst.setFloat(1, score);
+            pst.setBigDecimal(1, score);
             pst.setString(2, username);
             pst.setString(3, token);
             pst.executeUpdate();
@@ -149,7 +150,7 @@ public class User {
 
             pst = cn.prepareStatement(query);
             pst.setString(1, username);
-            pst.setFloat(2, (float)1.1);
+            pst.setBigDecimal(2, new BigDecimal("1.1"));
             pst.setLong(3, (new java.util.Date()).getTime());
             pst.executeUpdate();
             pst.close();

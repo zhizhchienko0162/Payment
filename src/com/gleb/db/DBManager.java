@@ -21,7 +21,7 @@ public class DBManager {
                     "create table if not exists users (" +
                             "username text not null primary key auto_increment, " +
                             "password text not null, " +
-                            "score float not null, " +
+                            "score decimal not null, " +
                             "token text " +
                             ") default charset=utf8;";
 
@@ -29,7 +29,7 @@ public class DBManager {
 
             query = "create table if not exists transaction (" +
                     "username text not null primary key, " +
-                    "size float not null, " +
+                    "size decimal not null, " +
                     "date int not null " +
                     ") default charset=utf8;";
 
